@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream — فن. ألعاب. محتوى.</title>
+<meta name="description" content="أرسم، ألعب، وأصنع محتوى بطريقتي الخاصة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg: #0d0202;         /* أسود داكن جداً بلمحة حمراء */
+  --bg2: #160505;        /* خلفية الطبقة الثانية */
+  --bg3: #220a0a;        /* خلفية الطبقة الثالثة للسكتشات والعناصر */
+  
+  /* تدرجات النيون الأحمر للبطاقات والحدود */
+  --card: rgba(255, 51, 51, 0.04);
+  --card-h: rgba(255, 51, 51, 0.09);
+  --border: rgba(255, 51, 51, 0.14);
+  --border-h: rgba(255, 51, 51, 0.35);
+  
+  /* اللون الأساسي البديل للـ Gold (أحمر نيون صريح) */
+  --gold: #ff4444;       
+  --gold2: #ff9999;      /* درجة أفتح من الأحمر عند التمرير بالماوس */
+  --gold-dim: rgba(255, 68, 68, 0.1);
+  
+  /* اللون الثانوي (تم تحويله من الوردي إلى برتقالي ناري نيون لإعطاء تباين رهيب مع الأحمر) */
+  --accent: #ff5a36;     
+  --accent2: rgba(255, 90, 54, 0.15);
+  
+  /* نصوص دافئة ومريحة للعين تتناسب مع الثيم الأحمر */
+  --text: #fff5f5;       /* أبيض مائل للوردي الخفيف جداً */
+  --muted: #b59fa0;      /* رمادي دافئ للنصوص الفرعية */
+  --subtle: #4e2525;     /* لون داكن للعناصر المخفية والحدود الثابتة */
+  
+  --display: 'Bebas Neue', sans-serif;
+  --body-ar: 'Tajawal', sans-serif;
+  --body-en: 'DM Sans', sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;cursor:none}
+
+/* LANG BTN */
+.lang-btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:500;color:var(--muted);border:1px solid var(--border);background:transparent;padding:.35rem .85rem;border-radius:3px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;letter-spacing:.04em}
+.lang-btn:hover{color:var(--gold);border-color:var(--border-h);background:var(--gold-dim)}
+
+/* CURSOR */
+#cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:difference}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(180,80,255,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:18px;height:18px}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:500;padding:0 2rem;transition:background .3s}
+nav.scrolled{background:rgba(8,2,13,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--display);font-size:1.7rem;letter-spacing:.12em;color:var(--gold);text-decoration:none}
+.logo sup{font-family:'DM Sans',sans-serif;font-size:.45rem;font-weight:300;letter-spacing:.2em;color:var(--muted);vertical-align:super;margin-left:.3em}
+html[dir="ltr"] .logo sup{margin-left:0;margin-right:.3em}
+.nav-links{display:flex;gap:.15rem;list-style:none;align-items:center}
+.nav-links a{font-size:.85rem;font-weight:500;color:var(--muted);text-decoration:none;padding:.4rem .8rem;border-radius:4px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--gold);background:var(--gold-dim)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
+.ham span{display:block;width:20px;height:1.5px;background:var(--muted);transition:.3s}
+.mob-nav{display:none;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(8,2,13,.97);border-bottom:1px solid var(--border);z-index:499;padding:1rem 2rem;gap:.2rem}
+.mob-nav.open{display:flex}
+.mob-nav a{font-size:.95rem;font-weight:500;color:var(--muted);text-decoration:none;padding:.65rem .75rem;border-radius:4px;transition:color .2s,background .2s}
+.mob-nav a:hover{color:var(--gold);background:var(--gold-dim)}
+
+/* HERO */
+#home{position:relative;min-height:100vh;display:grid;place-items:center;padding:7rem 2rem 4rem;overflow:hidden}
+.hero-lines{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,rgba(180,80,255,.022) 0,rgba(180,80,255,.022) 1px,transparent 1px,transparent 80px),repeating-linear-gradient(0deg,rgba(180,80,255,.022) 0,rgba(180,80,255,.022) 1px,transparent 1px,transparent 80px);pointer-events:none}
+.hero-radial{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(180,80,255,.12) 0%,rgba(255,107,219,.04) 40%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.8;transform:translate(-50%,-55%) scale(1)}50%{opacity:1;transform:translate(-50%,-55%) scale(1.07)}}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:780px}
+.kicker{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:500;color:var(--gold);border:1px solid var(--border-h);background:var(--gold-dim);padding:.35rem 1rem;border-radius:2px;margin-bottom:1.5rem;animation:fadeUp .8s .1s both}
+.kicker::before,.kicker::after{content:'—';font-size:.6rem;color:var(--muted)}
+.hero-name{font-family:var(--display);font-size:clamp(5rem,15vw,11rem);line-height:.9;letter-spacing:.05em;color:var(--text);animation:fadeUp .8s .2s both;display:inline-block}
+.hero-name .outline{-webkit-text-stroke:1px var(--gold2);color:transparent}
+.hero-tagline{font-size:clamp(1rem,2vw,1.2rem);font-weight:300;color:var(--muted);margin:1.25rem auto .75rem;max-width:500px;line-height:1.9;animation:fadeUp .8s .3s both}
+.hero-divider{width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:1.25rem auto;animation:fadeUp .8s .35s both}
+.hero-desc{font-size:1rem;color:var(--muted);max-width:480px;margin:0 auto 2.5rem;line-height:1.9;animation:fadeUp .8s .4s both}
+.hero-cta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .5s both}
+.btn{display:inline-flex;align-items:center;gap:.45rem;font-size:.9rem;font-weight:500;padding:.7rem 1.6rem;border-radius:3px;cursor:pointer;text-decoration:none;border:none;transition:all .2s}
+.btn-gold{background:var(--gold);color:var(--bg);box-shadow:0 0 24px rgba(180,80,255,.35)}
+.btn-gold:hover{background:var(--gold2);box-shadow:0 0 40px rgba(180,80,255,.5);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border-h);background:var(--card-h);transform:translateY(-2px)}
+.btn-support{background:linear-gradient(135deg,var(--accent),var(--gold));color:var(--bg);box-shadow:0 0 28px rgba(255,107,219,.3);font-weight:700}
+.btn-support:hover{box-shadow:0 0 44px rgba(255,107,219,.5);transform:translateY(-2px)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTIONS */
+section{position:relative;z-index:1;padding:6rem 2rem}
+.wrap{max-width:980px;margin:0 auto}
+.sec-eyebrow{display:flex;align-items:center;gap:.75rem;font-size:.8rem;font-weight:500;letter-spacing:.02em;color:var(--gold);margin-bottom:.75rem}
+.sec-eyebrow::after{content:'';flex:1;max-width:60px;height:1px;background:linear-gradient(to left,var(--border-h),transparent)}
+html[dir="ltr"] .sec-eyebrow::after{background:linear-gradient(to right,var(--border-h),transparent)}
+.sec-h{font-family:'Tajawal',sans-serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:700;line-height:1.15;color:var(--text);margin-bottom:.8rem}
+html[dir="ltr"] .sec-h{font-family:var(--display);font-weight:400;line-height:1;letter-spacing:.04em}
+.sec-p{font-size:1rem;color:var(--muted);line-height:1.9;max-width:540px}
+
+/* ABOUT */
+#about{background:linear-gradient(180deg,transparent 0,rgba(180,80,255,.03) 50%,transparent 100%)}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3rem}
+.about-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.stat{background:var(--bg2);padding:1.5rem 1.25rem;transition:background .2s}
+.stat:hover{background:var(--bg3)}
+.stat-num{font-family:var(--display);font-size:2.6rem;letter-spacing:.04em;color:var(--gold);line-height:1;margin-bottom:.3rem}
+.stat-label{font-size:.82rem;font-weight:500;color:var(--muted)}
+.about-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.pill{font-size:.78rem;font-weight:500;padding:.3rem .85rem;border-radius:2px;border:1px solid var(--border);color:var(--muted);transition:all .2s}
+.pill:hover{border-color:var(--border-h);color:var(--gold);background:var(--gold-dim)}
+
+/* ABOUT CARDS (three zones like Dream) */
+.about-zones{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:3rem}
+.zone{background:var(--bg2);padding:2.2rem 1.6rem;transition:background .2s;position:relative;overflow:hidden}
+.zone::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.zone:hover{background:var(--bg3)}
+.zone:hover::before{opacity:1}
+.zone-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.zone-title{font-family:'Tajawal',sans-serif;font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+html[dir="ltr"] .zone-title{font-family:var(--display);font-size:1.35rem;font-weight:400;letter-spacing:.06em}
+.zone-desc{font-size:.9rem;color:var(--muted);line-height:1.8}
+
+/* WORKS GRID */
+.works-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,220px);gap:8px;margin-top:2.5rem}
+html[dir="rtl"] .works-grid .g-item:first-child{grid-column:3/4;grid-row:1/3}
+html[dir="ltr"] .works-grid .g-item:first-child{grid-column:1/2;grid-row:1/3}
+.g-item{background:var(--bg3);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;cursor:pointer}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;display:block}
+.g-item:hover img{transform:scale(1.06)}
+.g-item-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--subtle)}
+.g-item-placeholder span{font-size:1.8rem}
+.g-item-placeholder p{font-size:.78rem}
+.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,2,13,.85) 0,transparent 60%);display:flex;align-items:flex-end;padding:.85rem;opacity:0;transition:opacity .3s}
+.g-item:hover .g-overlay{opacity:1}
+.g-overlay span{font-size:.8rem;color:var(--gold);font-weight:500}
+
+/* COMMISSIONS (replacing Services) */
+#commissions{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.commissions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:3rem}
+.commission{background:var(--bg2);padding:2rem 1.5rem;transition:background .2s;position:relative;overflow:hidden}
+.commission::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.commission:hover{background:var(--bg3)}
+.commission:hover::before{opacity:1}
+.cmsn-icon{font-size:1.6rem;margin-bottom:1rem;display:block}
+.cmsn-title{font-family:'Tajawal',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+html[dir="ltr"] .cmsn-title{font-family:var(--display);font-size:1.4rem;font-weight:400;letter-spacing:.06em}
+.cmsn-desc{font-size:.9rem;color:var(--muted);line-height:1.8}
+.cmsn-note{margin-top:1.25rem;font-size:.78rem;font-weight:500;color:var(--gold);font-family:'DM Sans',sans-serif}
+
+/* SUPPORT SECTION */
+#support{background:linear-gradient(135deg,rgba(180,80,255,.06) 0,rgba(255,107,219,.04) 50%,transparent 100%);border-top:1px solid var(--border)}
+.support-box{margin-top:3rem;border:1px solid var(--border-h);border-radius:8px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;position:relative}
+.support-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(180,80,255,.08),rgba(255,107,219,.05));pointer-events:none}
+.support-left{padding:3.5rem 2.5rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:1}
+.support-left .big{font-family:'Tajawal',sans-serif;font-weight:700;font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.2;color:var(--text)}
+html[dir="ltr"] .support-left .big{font-family:var(--display);font-weight:400;letter-spacing:.06em}
+.support-left p{font-size:.95rem;color:var(--muted);line-height:1.85;margin-top:.85rem;max-width:380px}
+.support-right{padding:3.5rem 2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;position:relative;z-index:1}
+.support-heart{font-size:4rem;animation:heartbeat 2s ease-in-out infinite}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.support-cta-text{font-size:1rem;color:var(--muted);text-align:center;line-height:1.75;max-width:260px}
+
+/* CONTACT */
+#contact{background:linear-gradient(180deg,transparent,rgba(180,80,255,.04) 50%,transparent)}
+.contact-box{margin-top:3rem;border:1px solid var(--border);border-radius:4px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.contact-left{background:var(--gold);padding:3rem 2.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.contact-left .big{font-family:'Tajawal',sans-serif;font-weight:700;font-size:clamp(2.5rem,5vw,3.8rem);line-height:1.2;color:var(--bg)}
+html[dir="ltr"] .contact-left .big{font-family:var(--display);font-weight:400;line-height:1;letter-spacing:.06em}
+.contact-left p{font-size:.92rem;color:rgba(8,2,13,.65);line-height:1.75;margin-top:.75rem}
+.contact-left .c-links{display:flex;flex-direction:column;gap:.5rem;margin-top:2rem}
+.contact-left .c-link{display:flex;align-items:center;gap:.5rem;font-size:.83rem;font-weight:500;color:rgba(8,2,13,.7);text-decoration:none;transition:color .2s}
+.contact-left .c-link:hover{color:var(--bg)}
+.contact-right{background:var(--bg2);padding:3rem 2.5rem;display:flex;flex-direction:column;gap:1rem}
+.contact-right label{display:block;font-size:.75rem;font-weight:500;color:var(--muted);margin-bottom:.4rem}
+.contact-right input,.contact-right textarea,.contact-right select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:.95rem;padding:.65rem .9rem;outline:none;transition:border-color .2s;font-family:'Tajawal',sans-serif}
+.contact-right select{appearance:none;-webkit-appearance:none}
+.contact-right input:focus,.contact-right textarea:focus,.contact-right select:focus{border-color:var(--border-h)}
+.contact-right textarea{resize:vertical;min-height:110px}
+.contact-right select option{background:var(--bg)}
+
+/* LINKS */
+.links-stack{display:flex;flex-direction:column;gap:.6rem;margin-top:2.5rem}
+.lnk{display:flex;align-items:center;gap:1.1rem;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:.9rem 1.2rem;text-decoration:none;color:var(--text);transition:all .25s;position:relative;overflow:hidden}
+.lnk::before{content:'';position:absolute;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transition:transform .25s;transform-origin:bottom}
+html[dir="rtl"] .lnk::before{right:0;left:auto}
+html[dir="ltr"] .lnk::before{left:0;right:auto}
+html[dir="rtl"] .lnk:hover{background:var(--card-h);border-color:var(--border-h);padding-right:1.6rem}
+html[dir="ltr"] .lnk:hover{background:var(--card-h);border-color:var(--border-h);padding-left:1.6rem}
+.lnk:hover::before{transform:scaleY(1)}
+.lnk-icon{width:40px;height:40px;border-radius:3px;background:var(--gold-dim);border:1px solid var(--border-h);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.lnk-info strong{display:block;font-size:.9rem;font-weight:500}
+.lnk-info span{font-size:.8rem;color:var(--muted);margin-top:.1rem;display:block}
+.lnk-arr{color:var(--subtle);font-size:.9rem;transition:transform .2s;margin-right:auto}
+html[dir="ltr"] .lnk-arr{margin-right:0;margin-left:auto}
+html[dir="rtl"] .lnk:hover .lnk-arr{transform:translateX(-3px);color:var(--gold)}
+html[dir="ltr"] .lnk:hover .lnk-arr{transform:translateX(3px);color:var(--gold)}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center}
+.footer-inner{max-width:980px;margin:0 auto}
+.footer-logo{font-family:var(--display);font-size:2.2rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.6rem}
+footer p{font-size:.83rem;color:var(--subtle)}
+.back-top{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:500;color:var(--muted);text-decoration:none;margin-top:1.25rem;transition:color .2s}
+.back-top:hover{color:var(--gold)}
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--border),transparent)}
+
+/* LIGHTBOX */
+.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:2000;align-items:center;justify-content:center;padding:2rem}
+.lb.open{display:flex}
+.lb img{max-width:100%;max-height:88vh;border-radius:4px;object-fit:contain}
+.lb-x{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.08);border:none;color:#fff;font-size:1.4rem;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lb-x:hover{background:rgba(255,255,255,.18)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .nav-links{display:none}
+  .ham{display:flex}
+  .about-layout{grid-template-columns:1fr}
+  .about-zones{grid-template-columns:1fr}
+  .support-box{grid-template-columns:1fr}
+  .contact-box{grid-template-columns:1fr}
+  .works-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  html[dir="rtl"] .works-grid .g-item:first-child,
+  html[dir="ltr"] .works-grid .g-item:first-child{grid-column:auto;grid-row:auto}
+}
+
+/* LIVE BADGE */
+.live-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,50,80,.15);border:1px solid rgba(255,50,80,.35);color:#ff5060;font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:2px;font-family:'DM Sans',sans-serif;letter-spacing:.06em}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff5060;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo">Dream<sup>🤍</sup></a>
+    <ul class="nav-links">
+      <li><a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+      <li><a href="#about" data-ar="عن Dream" data-en="About">عن Dream</a></li>
+      <li><a href="#works" data-ar="أعمالي" data-en="Works">أعمالي</a></li>
+      <li><a href="#commissions" data-ar="طلبات الرسم" data-en="Commissions">طلبات الرسم</a></li>
+      <li><a href="#support" data-ar="ادعمني" data-en="Support">ادعمني</a></li>
+      <li><a href="#links" data-ar="روابط" data-en="Links">روابط</a></li>
+      <li><button class="lang-btn" id="langBtn" onclick="toggleLang()">🇬🇧 English</button></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <button class="lang-btn" id="langBtnMob" onclick="toggleLang()" style="display:none">🇬🇧 EN</button>
+      <button class="ham" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mob-nav" id="mobNav">
+  <a href="#home" onclick="toggleMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+  <a href="#about" onclick="toggleMenu()" data-ar="عن Dream" data-en="About">عن Dream</a>
+  <a href="#works" onclick="toggleMenu()" data-ar="أعمالي" data-en="Works">أعمالي</a>
+  <a href="#commissions" onclick="toggleMenu()" data-ar="طلبات الرسم" data-en="Commissions">طلبات الرسم</a>
+  <a href="#support" onclick="toggleMenu()" data-ar="ادعمني" data-en="Support">ادعمني</a>
+  <a href="#links" onclick="toggleMenu()" data-ar="روابط" data-en="Links">روابط</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-lines"></div>
+  <div class="hero-radial"></div>
+  <div class="hero-content">
+    <div class="kicker" data-ar="فن • ألعاب • محتوى" data-en="Art • Games • Content">فن • ألعاب • محتوى</div>
+    <div class="hero-name">D<span class="outline">ream</span></div>
+    <p class="hero-tagline" data-ar="«أرسم، ألعب، وأصنع محتوى بطريقتي الخاصة.»" data-en='"I draw, I play, I create — my way, always."'>«أرسم، ألعب، وأصنع محتوى بطريقتي الخاصة.»</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc" data-ar="هنا بتلاقون جزء من عالمي — بين الشخصيات اللي أرسمها، واللحظات اللي أعيشها في الألعاب، والمحتوى اللي أحب أشاركه معكم." data-en="Here you'll find my world — characters I draw, moments I live in games, and content I love sharing with you.">هنا بتلاقون جزء من عالمي — بين الشخصيات اللي أرسمها، واللحظات اللي أعيشها في الألعاب، والمحتوى اللي أحب أشاركه معكم.</p>
+    <div class="hero-cta">
+      <a href="#works" class="btn btn-gold" style="color: white;" data-ar="شوفوا أعمالي" data-en="See My Art">شوفوا أعمالي</a>
+      <a href="#commissions" class="btn btn-support" style="color: white;"  data-ar="طلبات الرسم" data-en="Commission Art">طلبات الرسم</a>
+      <a href="#support" class="btn btn-support" style="color: white;" data-ar="🤍 ادعموا Dream" data-en="🤍 Support Dream"> ادعموا Dream 🤍</a>
+      <a href="https://discord.gg/MgvuxGx3" target="_blank" style="color: white;" class="btn btn-support" data-ar=" سيرفر Dream" data-en="Dream's Server"> سيرفر Dream</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-eyebrow" data-ar="عن Dream" data-en="About Dream">عن Dream</p>
+      <h2 class="sec-h" data-ar="مساحة صغيرة هادئة." data-en="A small corner of her world.">مساحة صغيرة هادئة.</h2>
+      <p class="sec-p" data-ar="معكم Dream.. هنا حيث الخيال، وتلتقي حماسة الألعاب بعفوية الفن والهدوء. هذي الصفحة هي زاوية صغيرة من عالمي الخاص؛ أشارككم فيها تفاصيل شغفي، معرض أعمالي، وحساباتي. تسعدني متابعتكم لرحلتي، وبدعمكم المستمر نكبر ونبدع أكثر 🖤" data-en="I'm Dream… I love drawing, sharing my gaming moments live, and creating content with a personal touch that blends art and spontaneity. This page is a small corner of my world.">معكم Dream.. هنا حيث الخيال، وتلتقي حماسة الألعاب بعفوية الفن والهدوء. هذي الصفحة هي زاوية صغيرة من عالمي الخاص؛ أشارككم فيها تفاصيل شغفي، معرض أعمالي، وحساباتي. تسعدني متابعتكم لرحلتي، وبدعمكم المستمر نكبر ونبدع أكثر 🖤.</p>
+    </div>
+
+    <!-- Three Zones like Dream reference -->
+    <div class="about-zones reveal" style="transition-delay:.1s">
+      <div class="zone">
+        <span class="zone-icon">✦</span>
+        <div class="zone-title" data-ar="أرسم" data-en="I Draw">أرسم</div>
+        <p class="zone-desc" data-ar="أرسم شخصيات وأعمال فنية بطابع خاص يعكس أسلوبي — بين الألوان والتفاصيل اللي أحب أشتغل عليها." data-en="I draw characters and artwork with a personal style that reflects who I am — colors, details, and the little things I love.">أرسم شخصيات وأعمال فنية بطابع خاص يعكس أسلوبي — بين الألوان والتفاصيل اللي أحب أشتغل عليها.</p>
+      </div>
+      <div class="zone">
+        <span class="zone-icon">🎮</span>
+        <div class="zone-title" data-ar="ألعب على البث" data-en="I Stream Games">ألعب على البث</div>
+        <p class="zone-desc" data-ar="أشارك لحظاتي في الألعاب عبر البث المباشر — المقاطع، المواقف، والتجارب اللي أحب أوثقها معكم بطريقتي." data-en="I share my gaming moments live — clips, moments, and experiences I love documenting with you my way.">أشارك لحظاتي في الألعاب عبر البث المباشر — المقاطع، المواقف، والتجارب اللي أحب أوثقها معكم بطريقتي.</p>
+      </div>
+      <div class="zone">
+        <span class="zone-icon">✨</span>
+        <div class="zone-title" data-ar="أصنع محتوى" data-en="I Create Content">أصنع محتوى</div>
+        <p class="zone-desc" data-ar="محتوى عفوي وبسيط، فيه جزء من شخصيتي واهتماماتي — بين الفن، الألعاب، واللحظات اليومية." data-en="Spontaneous and simple content with part of my personality and interests — blending art, games, and everyday moments.">محتوى عفوي وبسيط، فيه جزء من شخصيتي واهتماماتي — بين الفن، الألعاب، واللحظات اليومية.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-eyebrow" data-ar="أعمالي" data-en="Works">أعمالي</p>
+      <h2 class="sec-h" data-ar="رسومات بطابعها الخاص." data-en="Artwork with its own soul.">رسومات بطابعها الخاص.</h2>
+      <p class="sec-p" data-ar="هنا بعض الرسومات اللي تعبّر عن أسلوبي الفني، بين الشخصيات، الألوان، والتفاصيل اللي أحب أشتغل عليها." data-en="Here are some drawings that express my artistic style — characters, colors, and details I love working on.">هنا بعض الرسومات اللي تعبّر عن أسلوبي الفني، بين الشخصيات، الألوان، والتفاصيل اللي أحب أشتغل عليها.</p>
+    </div>
+    <div class="works-grid reveal" style="transition-delay:.1s">
+      <div class="g-item" onclick="openLb(this)">
+        <div class="g-item-placeholder"><span><img src="paintings/IMG_5002.JPEG" alt="painting"></span><p data-ar="عمل فني ١" data-en="Artwork 1">عمل فني ١</p></div>
+        <div class="g-overlay"><span data-ar="عرض العمل بالحجم الكامل" data-en="View full size">عرض العمل بالحجم الكامل</span></div>
+      </div>
+      <div class="g-item" onclick="openLb(this)">
+        <div class="g-item-placeholder"><span><img src="paintings/Girl.JPEG" alt="painting"></span><p data-ar="عمل فني ٢" data-en="Artwork 2">عمل فني ٢</p></div>
+        <div class="g-overlay"><span data-ar="عرض العمل بالحجم الكامل" data-en="View full size">عرض العمل بالحجم الكامل</span></div>
+      </div>
+      <div class="g-item" onclick="openLb(this)">
+        <div class="g-item-placeholder"><span><img src="paintings/snake.JPEG" alt="painting"></span><p data-ar="عمل فني ٣" data-en="Artwork 3">عمل فني ٣</p></div>
+        <div class="g-overlay"><span data-ar="عرض العمل بالحجم الكامل" data-en="View full size">عرض العمل بالحجم الكامل</span></div>
+      </div>
+      <div class="g-item" onclick="openLb(this)">
+        <div class="g-item-placeholder"><span><img src="paintings/IMG_5277.JPEG" alt="painting"></span><p data-ar="عمل فني ٤" data-en="Artwork 4">عمل فني ٤</p></div>
+        <div class="g-overlay"><span data-ar="عرض العمل بالحجم الكامل" data-en="View full size">عرض العمل بالحجم الكامل</span></div>
+      </div>
+      <div class="g-item" onclick="openLb(this)">
+        <div class="g-item-placeholder"><span><img src="paintings/montian.JPEG" alt="painting"></span><p data-ar="لحظة بث مباشر" data-en="Live stream moment">لحظة بث مباشر</p></div>
+        <div class="g-overlay"><span data-ar="عرض العمل بالحجم الكامل" data-en="View full size">عرض العمل بالحجم الكامل</span></div>
+      </div>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center" class="reveal">
+      <a href="https://www.instagram.com/Dr.6eam" target="_blank" class="btn btn-gold" data-ar="شاهدي المزيد على Instagram ↗" data-en="More Art on Instagram ↗">شاهدي المزيد على Instagram ↗</a>
+      <a href="https://www.tiktok.com/@Dreamyxxi7" target="_blank"><span class="live-badge"><span class="live-dot"></span><span data-ar="بث مباشر على TikTok" data-en="Live on TikTok">بث مباشر على TikTok </span></span> </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMMISSIONS -->
+<section id="commissions">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-eyebrow" data-ar="طلبات الرسم" data-en="Commissions">طلبات الرسم</p>
+      <h2 class="sec-h" data-ar="بدك رسمة بأسلوبي؟" data-en="Want art in my style?">بدك رسمة بأسلوبي؟</h2>
+      <p class="sec-p" data-ar="أقبل طلبات الرسم بفترات محددة. كل رسمة تأخذ وقتها وعنايتها." data-en="I accept commissions in specific windows. Every drawing gets the time and care it deserves.">أقبل طلبات الرسم بفترات محددة. كل رسمة تأخذ وقتها وعنايتها.</p>
+    </div>
+    <div class="commissions-grid reveal" style="transition-delay:.1s">
+      <div class="commission">
+        <span class="cmsn-icon">👤</span>
+        <div class="cmsn-title" data-ar="بورتريه شخصية" data-en="Character Portrait">بورتريه شخصية</div>
+        <p class="cmsn-desc" data-ar="رسم شخصيتك أو OC بأسلوبي الخاص. تصميم مخصص مع تفاصيل دقيقة وألوان مدروسة." data-en="Drawing your character or OC in my personal style. Custom design with fine details and thoughtful colors.">رسم شخصيتك أو OC بأسلوبي الخاص. تصميم مخصص مع تفاصيل دقيقة وألوان مدروسة.</p>
+        <div class="cmsn-note" data-ar="تواصل عبر Instagram للتفاصيل" data-en="DM on Instagram for details">تواصل عبر Instagram للتفاصيل</div>
+      </div>
+      <div class="commission">
+        <span class="cmsn-icon">🎮</span>
+        <div class="cmsn-title" data-ar="فن الألعاب" data-en="Game Fan Art">فن الألعاب</div>
+        <p class="cmsn-desc" data-ar="فن للشخصيات المفضلة من ألعابك بلمستي الخاصة. أحب أرسم الشخصيات اللي تكون فيها قصة." data-en="Art for your favorite game characters with my personal touch. I love drawing characters that carry a story.">فن للشخصيات المفضلة من ألعابك بلمستي الخاصة. أحب أرسم الشخصيات اللي تكون فيها قصة.</p>
+        <div class="cmsn-note" data-ar="تواصل عبر Instagram للتفاصيل" data-en="DM on Instagram for details">تواصل عبر Instagram للتفاصيل</div>
+      </div>
+      <div class="commission">
+        <span class="cmsn-icon">✨</span>
+        <div class="cmsn-title" data-ar="طلب خاص" data-en="Custom Request">طلب خاص</div>
+        <p class="cmsn-desc" data-ar="عندك فكرة مختلفة؟ تقدر تتواصلن وأشوف إذا أقدر أحقق رؤيتك بطريقتي." data-en="Have a different idea? Reach out and I'll see if I can bring your vision to life my way.">عندك فكرة مختلفة؟ تقدر تتواصلن وأشوف إذا أقدر أحقق رؤيتك بطريقتي.</p>
+        <div class="cmsn-note" data-ar="تواصل عبر Instagram للتفاصيل" data-en="DM on Instagram for details">تواصل عبر Instagram للتفاصيل</div>
+      </div>
+      <div class="commission">
+        <span class="cmsn-icon">🖼️</span>
+        <div class="cmsn-title" data-ar="رسم بث مباشر" data-en="Live Drawing Session">رسم بث مباشر</div>
+        <p class="cmsn-desc" data-ar="أحياناً أرسم طلبات من المتابعين خلال البث المباشر. تابعوا تيك توك لما يجي الإعلان." data-en="Sometimes I draw viewer requests during live streams. Follow TikTok for announcements.">أحياناً أرسم طلبات من المتابعين خلال البث المباشر. تابعوا تيك توك لما يجي الإعلان.</p>
+        <div class="cmsn-note" data-ar="متابعة TikTok للإعلانات" data-en="Follow TikTok for announcements">متابعة TikTok للإعلانات</div>
+      </div>
+    </div>
+    <div style="margin-top:2rem" class="reveal">
+      <a href="https://www.instagram.com/Dr.6eam" target="_blank" class="btn btn-gold" data-ar="طلبات الرسم على Instagram ↗" data-en="Art Commissions on Instagram ↗">طلبات الرسم على Instagram ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-eyebrow" data-ar="الدعم" data-en="Support">الدعم</p>
+      <h2 class="sec-h" data-ar="دعمكم يعني لي كثير." data-en="Your support means the world to me.">دعمكم يعني لي كثير.</h2>
+      <p class="sec-p" data-ar="وجودكم وتقديركم للأشياء اللي أشاركها هو أجمل دعم، ورابط الدعم موجود للي يحب يساهم بشكل مباشر." data-en="Your presence and appreciation for what I share is the most beautiful support. The support link is there for anyone who wants to contribute directly.">وجودكم وتقديركم للأشياء اللي أشاركها هو أجمل دعم، ورابط الدعم موجود للي يحب يساهم بشكل مباشر.</p>
+    </div>
+    <div class="support-box reveal" style="transition-delay:.15s">
+      <div class="support-left">
+        <div>
+          <div class="big" data-ar="ادعموا<br>Dream 🤍" data-en="Support<br>Dream 🤍"> ادعموا Dream🤍 </div> 
+          <p style="position: sticky;" data-ar="كل دعم يساعدني أكمل مشواري في الرسم والبث المباشر، وأصنع محتوى أحب أشاركه معكم. مجتمعكم الصغير هو اللي يحرّكني." data-en="Every bit of support helps me continue my journey in art and live streaming, and create content I love sharing with you. Your small community is what drives me.">كل دعم يساعدني أكمل مشواري في الرسم والبث المباشر، وأصنع محتوى أحب أشاركه معكم. مجتمعكم الصغير هو اللي يحرّكني.</p>
+       
+        </div>
+      </div>
+      <div class="support-right">
+        <a href="https://creators.sa/dreamy" target="_blank" class="btn btn-support" style="margin-top:2rem;align-self:auto" data-ar="ادعموا Dream على Creators 🤍" data-en="Support Dream on Creators 🤍">ادعموا Dream على Creators 🤍</a>
+
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<!-- <section id="contact">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-eyebrow" data-ar="تواصل" data-en="Contact">تواصل</p>
+      <h2 class="sec-h" data-ar="خلينا نتواصل." data-en="Let's connect.">خلينا نتواصل.</h2>
+      <p class="sec-p" data-ar="عندك سؤال أو طلب أو بس تحب تقول مرحبا؟ أنا هنا." data-en="Got a question, request, or just want to say hi? I'm here.">عندك سؤال أو طلب أو بس تحب تقول مرحبا؟ أنا هنا.</p>
+    </div>
+    <div class="contact-box reveal" style="transition-delay:.15s">
+      <div class="contact-left">
+        <div>
+          <div class="big" data-ar="تواصل<br>معي." data-en="Reach<br>out.">تواصل<br>معي.</div>
+          <p data-ar="سواء كان طلب رسم، سؤال عن البث، أو بس كلام — إذا الرسالة جاتني من قلب، سأرد." data-en="Whether it's a commission request, a question about streams, or just a hello — if the message comes with heart, I'll respond.">سواء كان طلب رسم، سؤال عن البث، أو بس كلام — إذا الرسالة جاتني من قلب، سأرد.</p>
+        </div>
+        <div class="c-links">
+          <a href="https://www.instagram.com/Dr.6eam" target="_blank" class="c-link">◈ Instagram — طلبات الرسم</a>
+          <a href="https://www.tiktok.com/@smalllDream" target="_blank" class="c-link">♪ TikTok Dream</a>
+          <a href="https://discord.gg/dtZbdPNS" target="_blank" class="c-link">💬 Dream Server — Discord</a>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div>
+          <label for="cname" data-ar="اسمك" data-en="Your name">اسمك</label>
+          <input type="text" id="cname" placeholder="اسمك هنا" data-ar-ph="اسمك هنا" data-en-ph="Your name here">
+        </div>
+        <div>
+          <label for="cemail" data-ar="البريد الإلكتروني (اختياري)" data-en="Email (optional)">البريد الإلكتروني (اختياري)</label>
+          <input type="email" id="cemail" placeholder="you@example.com">
+        </div>
+        <div>
+          <label for="ctype" data-ar="نوع الرسالة" data-en="Message type">نوع الرسالة</label>
+          <select id="ctype">
+            <option value="" data-ar="اختر…" data-en="Select…">اختر…</option>
+            <option data-ar="طلب رسم" data-en="Commission Request">طلب رسم</option>
+            <option data-ar="سؤال عن البث" data-en="Stream Question">سؤال عن البث</option>
+            <option data-ar="تعاون / Collab" data-en="Collaboration">تعاون / Collab</option>
+            <option data-ar="أخرى" data-en="Other">أخرى</option>
+          </select>
+        </div>
+        <div>
+          <label for="cmsg" data-ar="رسالتك" data-en="Your message">رسالتك</label>
+          <textarea id="cmsg" placeholder="اكتبي رسالتك هنا…" data-ar-ph="اكتبي رسالتك هنا…" data-en-ph="Write your message here…"></textarea>
+        </div>
+        <button class="btn btn-gold" onclick="handleSubmit()" style="width:100%;justify-content:center" data-ar="إرسال →" data-en="Send →">إرسال →</button>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<div class="divider"></div>
+
+<!-- LINKS -->
+<section id="links">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-eyebrow" data-ar="الروابط" data-en="Links">الروابط</p>
+      <h2 class="sec-h" data-ar="كل حسابات Dream في مكان واحد." data-en="All of Dream's accounts in one place.">كل حسابات Dream في مكان واحد.</h2>
+    </div>
+    <div class="links-stack reveal" style="transition-delay:.1s">
+      <a href="https://www.instagram.com/Dr.6eam" target="_blank" class="lnk">
+        <div class="lnk-icon">◈</div>
+        <div class="lnk-info"><strong data-ar="Instagram — طلبات الرسم" data-en="Instagram — Art Commissions">Instagram — طلبات الرسم</strong><span data-ar="للطلبات والتواصل الفني" data-en="For commissions and art contact">للطلبات والتواصل الفني</span></div>
+        <span class="lnk-arr">←</span>
+      </a>
+      <a href="https://www.tiktok.com/@Dreamyxxi7" target="_blank" class="lnk">
+        <div class="lnk-icon">♪</div>
+        <div class="lnk-info"><strong data-ar="TikTok Dream — البث المباشر" data-en="TikTok Dream — Live Streams">TikTok Dream — البث المباشر</strong><span data-ar="مقاطع، بث مباشر للألعاب، ومحتوى Dream" data-en="Clips, gaming live streams, and Dream content">مقاطع، بث مباشر للألعاب، ومحتوى Dream</span></div>
+        <span class="lnk-arr">←</span>
+      </a>
+      <!-- <a href="https://www.tiktok.com/@Dreamyxxi7" target="_blank" class="lnk">
+        <div class="lnk-icon">♪</div>
+        <div class="lnk-info"><strong data-ar="TikTok الاحتياطي" data-en="TikTok Backup">TikTok الاحتياطي</strong><span data-ar="حساب Dream الاحتياطي" data-en="Dream's backup account">حساب Dream الاحتياطي</span></div>
+        <span class="lnk-arr">←</span>
+      </a> -->
+      <a href="https://discord.gg/MgvuxGx3" target="_blank" class="lnk">
+        <div class="lnk-icon">💬</div>
+        <div class="lnk-info"><strong data-ar="Dream Server — Discord" data-en="Dream Server — Discord">Dream Server — Discord</strong><span data-ar="سيرفر Discord الخاص بـ Dream — الكوميونيتي الصغيرة" data-en="Dream's Discord server — the small community">سيرفر Discord الخاص بـ Dream — الكوميونيتي الصغيرة</span></div>
+        <span class="lnk-arr">←</span>
+      </a>
+      <a href="https://creators.sa/dreamy" target="_blank" class="lnk" style="border-color:rgba(255,107,219,.3)">
+        <div class="lnk-icon" style="background:rgba(255,107,219,.12);border-color:rgba(255,107,219,.3)">🤍</div>
+        <div class="lnk-info"><strong data-ar="الدعم المباشر — Creators" data-en="Direct Support — Creators">الدعم المباشر — Creators</strong><span data-ar="ادعموا Dream مباشرة عبر منصة Creators" data-en="Support Dream directly through Creators platform">ادعموا Dream مباشرة عبر منصة Creators</span></div>
+        <span class="lnk-arr">←</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Dream</div>
+    <p data-ar="© 2026 Dream. جميع الحقوق محفوظة." data-en="© 2026 Dream. All rights reserved.">© 2026 Dream. جميع الحقوق محفوظة.</p>
+    <p style="margin-top:.3rem" data-ar="شكرًا لوجودكم في عالمي الصغير 🤍" data-en="Thank you for being in my small world 🤍">شكرًا لوجودكم في عالمي الصغير 🤍</p>
+    <a href="#home" class="back-top" data-ar="↑ العودة للأعلى" data-en="↑ Back to top">↑ العودة للأعلى</a>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="closeLb()">
+  <button class="lb-x" onclick="closeLb()">✕</button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<script>
+let lang = 'ar';
+
+function toggleLang() {
+  lang = lang === 'ar' ? 'en' : 'ar';
+  applyLang();
+}
+
+function applyLang() {
+  const isAr = lang === 'ar';
+  const html = document.documentElement;
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+  document.body.style.fontFamily = isAr ? "'Tajawal', sans-serif" : "'DM Sans', sans-serif";
+
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (!val) return;
+    if (val.includes('<')) { el.innerHTML = val; } else { el.textContent = val; }
+  });
+
+  document.querySelectorAll('[data-ar-ph]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + lang + '-ph') || '';
+  });
+
+  const btnLabel = isAr ? '🇬🇧 English' : '🇸🇦 عربي';
+  const btnLabelShort = isAr ? '🇬🇧 EN' : '🇸🇦 ع';
+  const b1 = document.getElementById('langBtn');
+  const b2 = document.getElementById('langBtnMob');
+  if (b1) b1.textContent = btnLabel;
+  if (b2) b2.textContent = btnLabelShort;
+
+  document.querySelectorAll('.lnk-arr').forEach(a => { a.textContent = isAr ? '←' : '→'; });
+}
+
+// Cursor
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// Mobile menu
+function toggleMenu() { document.getElementById('mobNav').classList.toggle('open'); }
+
+function checkMob() {
+  const mob = window.innerWidth <= 700;
+  document.getElementById('langBtnMob').style.display = mob ? 'inline-flex' : 'none';
+}
+window.addEventListener('resize', checkMob);
+checkMob();
+
+// Lightbox
+function openLb(el) {
+  const img = el.querySelector('img');
+  if (img) { document.getElementById('lbImg').src = img.src; document.getElementById('lb').classList.add('open'); document.body.style.overflow = 'hidden'; }
+}
+function closeLb() { document.getElementById('lb').classList.remove('open'); document.body.style.overflow = ''; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Active nav
+const secs = document.querySelectorAll('section[id]');
+const nLinks = document.querySelectorAll('.nav-links a, .mob-nav a');
+window.addEventListener('scroll', () => {
+  let active = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 90) active = s.id; });
+  nLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + active ? 'var(--gold)' : ''; });
+});
+
+// Form
+function handleSubmit() {
+  const n = document.getElementById('cname').value;
+  const isAr = lang === 'ar';
+  if (!n) { alert(isAr ? 'يرجى كتابة اسمك.' : 'Please enter your name.'); return; }
+  alert(isAr ? 'شكراً على رسالتك! سأتواصل معك قريباً 🤍' : "Thanks for your message! I'll get back to you soon 🤍");
+}
+</script>
+</body>
+</html>
