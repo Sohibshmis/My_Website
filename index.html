@@ -225,6 +225,8 @@ footer p{font-size:.83rem;color:var(--subtle)}
 
 /* RESPONSIVE */
 @media(max-width:700px){
+  body { cursor: auto !important; }
+  #cursor, #cursor-ring { display: none !important; }
   .nav-links{display:none}
   .ham{display:flex}
   .about-layout{grid-template-columns:1fr}
@@ -240,6 +242,162 @@ footer p{font-size:.83rem;color:var(--subtle)}
 .live-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,50,80,.15);border:1px solid rgba(255,50,80,.35);color:#ff5060;font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:2px;font-family:'DM Sans',sans-serif;letter-spacing:.06em}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#ff5060;animation:blink 1.2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ===== PAGE OVERLAY SYSTEM ===== */
+.page-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:800;overflow-y:auto}
+.page-overlay.active{display:block}
+.page-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10}
+.page-back{background:none;border:1px solid var(--border);color:var(--muted);font-size:.83rem;padding:.4rem .9rem;border-radius:3px;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif}
+html[dir="ltr"] .page-back{font-family:'DM Sans',sans-serif}
+.page-back:hover{color:var(--gold);border-color:var(--border-h);background:var(--gold-dim)}
+.page-title{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;color:var(--gold)}
+.page-body{max-width:900px;margin:0 auto;padding:3rem 2rem}
+
+/* ===== PURCHASE FLOW ===== */
+.purchase-step{display:none}
+.purchase-step.active{display:block}
+.step-heading{font-family:'Tajawal',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--text);margin-bottom:.5rem}
+html[dir="ltr"] .step-heading{font-family:var(--display);font-weight:400;letter-spacing:.04em}
+.step-sub{font-size:.95rem;color:var(--muted);margin-bottom:2.5rem;line-height:1.8}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+@media(max-width:600px){.choice-grid{grid-template-columns:1fr}}
+.choice-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:2.2rem 1.75rem;cursor:pointer;transition:all .25s;text-align:center;position:relative;overflow:hidden}
+.choice-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.choice-card:hover{background:var(--bg3);border-color:var(--border-h);transform:translateY(-3px)}
+.choice-card:hover::after{opacity:1}
+.choice-card.selected{border-color:var(--gold);background:var(--gold-dim)}
+.choice-icon{font-size:2.8rem;margin-bottom:1rem;display:block}
+.choice-label{font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:.4rem}
+html[dir="ltr"] .choice-label{font-family:var(--display);font-size:1.3rem;font-weight:400;letter-spacing:.06em}
+.choice-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+.sub-choice-row{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap}
+.sub-chip{background:var(--bg2);border:1px solid var(--border);color:var(--muted);font-size:.85rem;padding:.5rem 1.2rem;border-radius:2px;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif}
+html[dir="ltr"] .sub-chip{font-family:'DM Sans',sans-serif}
+.sub-chip:hover{border-color:var(--border-h);color:var(--gold)}
+.sub-chip.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
+
+/* FORM FIELDS */
+.form-section{margin-bottom:2.5rem}
+.form-section-title{font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--gold);margin-bottom:1.25rem;text-transform:uppercase}
+.field-group{display:grid;gap:1rem;margin-bottom:1rem}
+.field-group.cols-2{grid-template-columns:1fr 1fr}
+@media(max-width:600px){.field-group.cols-2{grid-template-columns:1fr}}
+.field label{display:block;font-size:.75rem;font-weight:500;color:var(--muted);margin-bottom:.4rem}
+.field input,.field textarea,.field select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:.95rem;padding:.7rem 1rem;outline:none;transition:border-color .2s;font-family:'Tajawal',sans-serif}
+html[dir="ltr"] .field input,html[dir="ltr"] .field textarea,html[dir="ltr"] .field select{font-family:'DM Sans',sans-serif}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:100px}
+.field select option{background:var(--bg)}
+.field-note{font-size:.75rem;color:var(--subtle);margin-top:.35rem}
+.field input[type="file"]{padding:.5rem;font-size:.83rem}
+
+/* MEDIUM TYPE TAGS */
+.medium-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+.medium-tag{background:var(--bg3);border:1px solid var(--border);color:var(--muted);font-size:.8rem;padding:.3rem .85rem;border-radius:2px;cursor:pointer;transition:all .2s;user-select:none}
+.medium-tag:hover{border-color:var(--border-h);color:var(--gold)}
+.medium-tag.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+
+/* STEP NAV */
+.step-nav{display:flex;gap:.75rem;margin-top:2.5rem;align-items:center;justify-content:space-between}
+.step-nav-left{display:flex;gap:.75rem}
+.btn-next{background:var(--gold);color:var(--bg);font-size:.9rem;font-weight:700;padding:.75rem 2rem;border-radius:3px;border:none;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif}
+html[dir="ltr"] .btn-next{font-family:'DM Sans',sans-serif}
+.btn-next:hover{background:var(--gold2);box-shadow:0 0 24px rgba(255,68,68,.35);transform:translateY(-2px)}
+.btn-prev{background:transparent;color:var(--muted);font-size:.9rem;padding:.75rem 1.5rem;border-radius:3px;border:1px solid var(--border);cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif}
+html[dir="ltr"] .btn-prev{font-family:'DM Sans',sans-serif}
+.btn-prev:hover{border-color:var(--border-h);color:var(--text)}
+
+/* STEP INDICATOR */
+.step-indicator{display:flex;gap:.5rem;align-items:center}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--subtle);transition:background .3s}
+.step-dot.done{background:var(--gold)}
+.step-dot.current{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+
+/* AUCTION DURATION */
+.auction-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.auction-chip{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem;text-align:center;cursor:pointer;transition:all .2s}
+.auction-chip:hover{border-color:var(--border-h);background:var(--bg3)}
+.auction-chip.active{border-color:var(--gold);background:var(--gold-dim)}
+.auction-chip .a-dur{font-family:var(--display);font-size:1.6rem;letter-spacing:.04em;color:var(--gold);display:block}
+.auction-chip .a-label{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+
+/* LISTING GRID */
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem;margin-top:1.5rem}
+.listing-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:all .25s;cursor:pointer}
+.listing-card:hover{border-color:var(--border-h);transform:translateY(-3px)}
+.listing-img{width:100%;height:180px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--subtle)}
+.listing-info{padding:1rem 1.1rem}
+.listing-name{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.listing-price{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--gold)}
+.listing-badge{display:inline-block;font-size:.68rem;font-weight:700;background:rgba(255,90,54,.15);border:1px solid rgba(255,90,54,.3);color:var(--accent);padding:.2rem .55rem;border-radius:2px;margin-top:.4rem;font-family:'DM Sans',sans-serif;letter-spacing:.06em}
+.free-shipping{color:#4caf50;font-size:.72rem;margin-top:.3rem;font-weight:600}
+
+/* CONFIRMATION BOX */
+.confirm-box{background:var(--bg2);border:1px solid var(--border-h);border-radius:8px;padding:3rem 2.5rem;text-align:center}
+.confirm-icon{font-size:3.5rem;margin-bottom:1rem}
+.confirm-title{font-family:'Tajawal',sans-serif;font-size:1.8rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+html[dir="ltr"] .confirm-title{font-family:var(--display);font-weight:400;letter-spacing:.04em}
+.confirm-sub{color:var(--muted);line-height:1.8;margin-bottom:2rem}
+.confirm-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+/* ===== ARTIST SHOWCASE ===== */
+.showcase-intro{margin-bottom:2rem}
+
+/* Patch tabs */
+.patch-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.75rem}
+.patch-tab{background:var(--bg2);border:1px solid var(--border);color:var(--muted);font-size:.78rem;font-weight:600;padding:.4rem 1rem;border-radius:3px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.patch-tab:hover{border-color:var(--border-h);color:var(--gold)}
+.patch-tab.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+
+/* 5-per-row grid */
+.winner-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.85rem;margin-top:1rem}
+@media(max-width:900px){.winner-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.winner-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Cards */
+.winner-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s,transform .2s;position:relative;cursor:pointer}
+.winner-card:hover{border-color:var(--border-h);transform:translateY(-2px)}
+
+/* Photo area */
+.winner-photo{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--bg3)}
+.winner-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.winner-card:hover .winner-photo img{transform:scale(1.06)}
+.winner-photo-placeholder{width:100%;aspect-ratio:1/1;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:var(--subtle)}
+
+/* Winner badge on photo */
+.winner-badge{position:absolute;top:.5rem;right:.5rem;background:var(--gold);color:var(--bg);font-size:.58rem;font-weight:800;padding:.2rem .5rem;border-radius:2px;font-family:'DM Sans',sans-serif;letter-spacing:.08em;z-index:2;pointer-events:none}
+html[dir="ltr"] .winner-badge{right:auto;left:.5rem}
+
+/* Zoom hint overlay */
+.winner-zoom{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:1.4rem;color:#fff;pointer-events:none}
+.winner-card:hover .winner-zoom{opacity:1}
+
+/* Caption strip */
+.winner-caption{padding:.55rem .6rem .4rem;background:var(--bg2)}
+.winner-caption-name{font-size:.78rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.winner-caption-link{display:inline-flex;align-items:center;gap:.25rem;font-size:.68rem;color:var(--gold);text-decoration:none;margin-top:.15rem;transition:color .2s}
+.winner-caption-link:hover{color:var(--gold2)}
+
+/* Star row inside caption */
+.star-row{display:flex;align-items:center;gap:.45rem;margin-top:.4rem;padding-top:.4rem;border-top:1px solid var(--border)}
+.star-btn{background:none;border:1.5px solid var(--border);border-radius:3px;cursor:pointer;padding:.22rem .55rem;font-size:.72rem;font-weight:700;color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:.25rem;font-family:'DM Sans',sans-serif;line-height:1}
+.star-btn:hover{border-color:#f5c518;color:#f5c518;background:rgba(245,197,24,.08)}
+.star-btn.voted{border-color:#f5c518;color:#f5c518;background:rgba(245,197,24,.12)}
+.star-count{font-family:var(--display);font-size:.9rem;letter-spacing:.04em;color:var(--gold)}
+.star-count-label{font-size:.65rem;color:var(--muted)}
+
+/* PHOTO LIGHTBOX */
+.art-lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:3000;align-items:center;justify-content:center;padding:1.5rem;flex-direction:column;gap:1rem}
+.art-lb.open{display:flex}
+.art-lb img{max-width:min(90vw,700px);max-height:80vh;border-radius:4px;object-fit:contain;box-shadow:0 0 60px rgba(0,0,0,.6)}
+.art-lb-caption{color:var(--text);font-size:.9rem;text-align:center}
+.art-lb-caption a{color:var(--gold);text-decoration:none}
+.art-lb-x{position:absolute;top:1.2rem;right:1.4rem;background:rgba(255,255,255,.08);border:none;color:#fff;font-size:1.3rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:10}
+.art-lb-x:hover{background:rgba(255,255,255,.2)}
+
+.empty-showcase{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.empty-showcase .empty-icon{font-size:2.5rem;margin-bottom:.75rem}
+.empty-showcase p{line-height:1.8}
 </style>
 </head>
 <body>
@@ -252,12 +410,12 @@ footer p{font-size:.83rem;color:var(--subtle)}
   <div class="nav-inner">
     <a href="#home" class="logo">Dream<sup>🤍</sup></a>
     <ul class="nav-links">
-      <li><a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
       <li><a href="#about" data-ar="عن Dream" data-en="About">عن Dream</a></li>
       <li><a href="#works" data-ar="أعمالي" data-en="Works">أعمالي</a></li>
-      <li><a href="#commissions" data-ar="طلبات الرسم" data-en="Commissions">طلبات الرسم</a></li>
       <li><a href="#support" data-ar="ادعمني" data-en="Support">ادعمني</a></li>
       <li><a href="#links" data-ar="روابط" data-en="Links">روابط</a></li>
+      <li><a href="javascript:void(0)" onclick="openPage('purchase')" data-ar="شراء لوحة" data-en="Purchase Art">شراء لوحة</a></li>
+      <li><a href="javascript:void(0)" onclick="openPage('showcase')" data-ar="معرض المتابعين" data-en="Artist Showcase">معرض المتابعين</a></li>
       <li><button class="lang-btn" id="langBtn" onclick="toggleLang()">🇬🇧 English</button></li>
     </ul>
     <div style="display:flex;align-items:center;gap:.6rem">
@@ -269,12 +427,12 @@ footer p{font-size:.83rem;color:var(--subtle)}
   </div>
 </nav>
 <div class="mob-nav" id="mobNav">
-  <a href="#home" onclick="toggleMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
   <a href="#about" onclick="toggleMenu()" data-ar="عن Dream" data-en="About">عن Dream</a>
   <a href="#works" onclick="toggleMenu()" data-ar="أعمالي" data-en="Works">أعمالي</a>
-  <a href="#commissions" onclick="toggleMenu()" data-ar="طلبات الرسم" data-en="Commissions">طلبات الرسم</a>
   <a href="#support" onclick="toggleMenu()" data-ar="ادعمني" data-en="Support">ادعمني</a>
   <a href="#links" onclick="toggleMenu()" data-ar="روابط" data-en="Links">روابط</a>
+  <a href="javascript:void(0)" onclick="toggleMenu();openPage('purchase')" data-ar="شراء لوحة" data-en="Purchase Art">شراء لوحة</a>
+  <a href="javascript:void(0)" onclick="toggleMenu();openPage('showcase')" data-ar="معرض المتابعين" data-en="Artist Showcase">معرض المتابعين</a>
 </div>
 
 <!-- HERO -->
@@ -291,7 +449,7 @@ footer p{font-size:.83rem;color:var(--subtle)}
       <a href="#works" class="btn btn-gold" style="color: white;" data-ar="شوفوا أعمالي" data-en="See My Art">شوفوا أعمالي</a>
       <a href="#commissions" class="btn btn-support" style="color: white;"  data-ar="طلبات الرسم" data-en="Commission Art">طلبات الرسم</a>
       <a href="#support" class="btn btn-support" style="color: white;" data-ar="🤍 ادعموا Dream" data-en="🤍 Support Dream"> ادعموا Dream 🤍</a>
-      <a href="https://discord.gg/MgvuxGx3" target="_blank" style="color: white;" class="btn btn-support" data-ar=" سيرفر Dream" data-en="Dream's Server"> سيرفر Dream</a>
+      <a href="https://discord.gg/GXJ4JyaqtU" target="_blank" style="color: white;" class="btn btn-support" data-ar=" سيرفر Dream" data-en="Dream's Server"> سيرفر Dream</a>
     </div>
   </div>
 </section>
@@ -512,7 +670,7 @@ footer p{font-size:.83rem;color:var(--subtle)}
         <div class="lnk-info"><strong data-ar="TikTok الاحتياطي" data-en="TikTok Backup">TikTok الاحتياطي</strong><span data-ar="حساب Dream الاحتياطي" data-en="Dream's backup account">حساب Dream الاحتياطي</span></div>
         <span class="lnk-arr">←</span>
       </a> -->
-      <a href="https://discord.gg/MgvuxGx3" target="_blank" class="lnk">
+      <a href="https://discord.gg/GXJ4JyaqtU" target="_blank" class="lnk">
         <div class="lnk-icon">💬</div>
         <div class="lnk-info"><strong data-ar="Dream Server — Discord" data-en="Dream Server — Discord">Dream Server — Discord</strong><span data-ar="سيرفر Discord الخاص بـ Dream — الكوميونيتي الصغيرة" data-en="Dream's Discord server — the small community">سيرفر Discord الخاص بـ Dream — الكوميونيتي الصغيرة</span></div>
         <span class="lnk-arr">←</span>
@@ -540,6 +698,297 @@ footer p{font-size:.83rem;color:var(--subtle)}
 <div class="lb" id="lb" onclick="closeLb()">
   <button class="lb-x" onclick="closeLb()">✕</button>
   <img id="lbImg" src="" alt="">
+</div>
+
+<!-- ========== PURCHASE ART PAGE ========== -->
+<div class="page-overlay" id="page-purchase">
+  <div class="page-header">
+    <button class="page-back" onclick="closePage('purchase')">← <span data-ar="العودة" data-en="Back">العودة</span></button>
+    <span class="page-title" data-ar="شراء لوحة أو مج" data-en="Purchase Art or Merch">شراء لوحة أو مج</span>
+  </div>
+  <div class="page-body">
+
+    <!-- STEP INDICATOR -->
+    <div class="step-indicator" id="purchaseStepDots" style="margin-bottom:2rem"></div>
+
+    <!-- STEP 1: Category -->
+    <div class="purchase-step active" id="pstep-1">
+      <h2 class="step-heading" data-ar="ماذا تريد؟" data-en="What would you like?">ماذا تريد؟</h2>
+      <p class="step-sub" data-ar="اختر ما تبغي تطلبه أو تشتريه." data-en="Choose what you'd like to order or buy.">اختر ما تبغي تطلبه أو تشتريه.</p>
+      <div class="choice-grid">
+        <div class="choice-card" onclick="selectCategory('painting')">
+          <span class="choice-icon">🎨</span>
+          <div class="choice-label" data-ar="لوحة" data-en="Painting">لوحة</div>
+          <p class="choice-desc" data-ar="طلب رسم مخصص أو شراء أعمالي الأصلية أو المزادات" data-en="Custom commission, original artwork purchase, or auctions">طلب رسم مخصص أو شراء أعمالي الأصلية أو المزادات</p>
+        </div>
+        <div class="choice-card" onclick="selectCategory('mug')">
+          <span class="choice-icon">☕</span>
+          <div class="choice-label" data-ar="مج" data-en="Mug">مج</div>
+          <p class="choice-desc" data-ar="مج مخصص برسمتك أو شراء مجات جاهزة أو المزادات" data-en="Custom mug with your design, or ready-made mugs and auctions">مج مخصص برسمتك أو شراء مجات جاهزة أو المزادات</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Type (custom vs original) -->
+    <div class="purchase-step" id="pstep-2">
+      <h2 class="step-heading" id="step2-heading"></h2>
+      <p class="step-sub" data-ar="اختر نوع الطلب." data-en="Choose your order type.">اختر نوع الطلب.</p>
+      <div class="choice-grid">
+        <div class="choice-card" onclick="selectType('custom')">
+          <span class="choice-icon">✏️</span>
+          <div class="choice-label" data-ar="مخصص" data-en="Custom">مخصص</div>
+          <p class="choice-desc" data-ar="أرسم أو أصمم لك شيء خاص بناءً على طلبك وأفكارك" data-en="I'll draw or design something special just for you based on your ideas">أرسم أو أصمم لك شيء خاص بناءً على طلبك وأفكارك</p>
+        </div>
+        <div class="choice-card" onclick="selectType('original')">
+          <span class="choice-icon">🖼️</span>
+          <div class="choice-label" data-ar="أعمال أصلية" data-en="Original Works">أعمال أصلية</div>
+          <p class="choice-desc" data-ar="تصفح لوحاتي الجاهزة أو شارك في المزادات" data-en="Browse my ready paintings or join the auctions">تصفح لوحاتي الجاهزة أو شارك في المزادات</p>
+        </div>
+      </div>
+      <div class="step-nav"><div class="step-nav-left"><button class="btn-prev" onclick="goStep(1)" data-ar="السابق" data-en="Back">السابق</button></div></div>
+    </div>
+
+    <!-- STEP 3A: Custom Commission Form -->
+    <div class="purchase-step" id="pstep-3a">
+      <h2 class="step-heading" data-ar="تفاصيل طلبك" data-en="Your Request Details">تفاصيل طلبك</h2>
+      <p class="step-sub" data-ar="كلما أعطيتني تفاصيل أكثر، كانت النتيجة أجمل." data-en="The more details you give me, the better the result.">كلما أعطيتني تفاصيل أكثر، كانت النتيجة أجمل.</p>
+
+      <!-- Painting-only fields -->
+      <div id="painting-medium-section" class="form-section" style="display:none">
+        <p class="form-section-title" data-ar="نوع الوسيط" data-en="Medium / Style">نوع الوسيط</p>
+        <div class="medium-tags" id="mediumTags">
+          <span class="medium-tag" onclick="toggleMedium(this)" data-val="acrylic" data-ar="أكريليك" data-en="Acrylic">أكريليك</span>
+          <span class="medium-tag" onclick="toggleMedium(this)" data-val="oil" data-ar="زيت" data-en="Oil">زيت</span>
+          <span class="medium-tag" onclick="toggleMedium(this)" data-val="pencil" data-ar="رصاص" data-en="Pencil">رصاص</span>
+          <span class="medium-tag" onclick="toggleMedium(this)" data-val="anime" data-ar="أنمي" data-en="Anime">أنمي</span>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-section-title" data-ar="معلومات الطلب" data-en="Request Info">معلومات الطلب</p>
+        <div class="field-group">
+          <div class="field">
+            <label data-ar="مرجع (اختياري) — ارفع صورة للمساعدة" data-en="Reference (optional) — upload an image to help">مرجع (اختياري) — ارفع صورة للمساعدة</label>
+            <input type="file" id="refImage" accept="image/*">
+          </div>
+        </div>
+        <div id="painting-size-field" class="field-group" style="display:none">
+          <div class="field">
+            <label data-ar="حجم اللوحة المطلوب (مثل: ٣٠×٤٠ سم)" data-en="Painting size (e.g. 30×40 cm)">حجم اللوحة المطلوب</label>
+            <input type="text" id="paintingSize" placeholder="30×40 cm" data-ar-ph="٣٠×٤٠ سم" data-en-ph="30×40 cm">
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label data-ar="وصف الفكرة — أخبرني عن تصورك" data-en="Describe your idea — tell me your vision">وصف الفكرة</label>
+            <textarea id="customDesc" placeholder="أخبرني عن فكرتك بالتفصيل…" data-ar-ph="أخبرني عن فكرتك بالتفصيل…" data-en-ph="Tell me your idea in detail…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-section-title" data-ar="بياناتك" data-en="Your Info">بياناتك</p>
+        <div class="field-group cols-2">
+          <div class="field">
+            <label data-ar="اسمك" data-en="Your name">اسمك</label>
+            <input type="text" id="customName" placeholder="اسمك" data-ar-ph="اسمك" data-en-ph="Your name">
+          </div>
+          <div class="field">
+            <label data-ar="طريقة التواصل (إلزامية) — رقم، انستغرام، تيك توك..." data-en="Contact method (required) — number, Instagram, TikTok…">طريقة التواصل <span style="color:var(--gold)">*</span></label>
+            <input type="text" id="customContact" placeholder="@instagramhandle أو رقم الهاتف" data-ar-ph="@instagramhandle أو رقم" data-en-ph="@instagramhandle or phone number">
+            <p class="field-note" data-ar="أي طريقة تواصل — انستغرام، تيك توك، رقم هاتف، أي شيء" data-en="Any contact method — Instagram, TikTok, phone, anything works">أي طريقة تواصل — انستغرام، تيك توك، رقم هاتف، أي شيء</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <div class="step-nav-left"><button class="btn-prev" onclick="goStep(2)" data-ar="السابق" data-en="Back">السابق</button></div>
+        <button class="btn-next" onclick="goStep('3a-ship')" data-ar="التالي: الشحن →" data-en="Next: Shipping →">التالي: الشحن →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3B: Original works — buy now vs auction -->
+    <div class="purchase-step" id="pstep-3b">
+      <h2 class="step-heading" data-ar="كيف تريد الشراء؟" data-en="How would you like to buy?">كيف تريد الشراء؟</h2>
+      <p class="step-sub" data-ar="اختر بين الشراء الفوري بالسعر المحدد أو المشاركة في المزاد." data-en="Choose between buying now at a set price or joining an auction.">اختر بين الشراء الفوري بالسعر المحدد أو المشاركة في المزاد.</p>
+      <div class="choice-grid">
+        <div class="choice-card" onclick="selectBuyMode('buynow')">
+          <span class="choice-icon">💳</span>
+          <div class="choice-label" data-ar="شراء فوري" data-en="Buy Now">شراء فوري</div>
+          <p class="choice-desc" data-ar="تصفح الأعمال الجاهزة بأسعار محددة واشتري مباشرة" data-en="Browse ready pieces at set prices and buy directly">تصفح الأعمال الجاهزة بأسعار محددة واشتري مباشرة</p>
+        </div>
+        <div class="choice-card" onclick="selectBuyMode('auction')">
+          <span class="choice-icon">🏷️</span>
+          <div class="choice-label" data-ar="مزاد" data-en="Auction">مزاد</div>
+          <p class="choice-desc" data-ar="شارك في المزادات وضع عرضك السعري على أعمال مختارة" data-en="Join active auctions and place your bid on selected works">شارك في المزادات وضع عرضك السعري على أعمال مختارة</p>
+        </div>
+      </div>
+      <div class="step-nav"><div class="step-nav-left"><button class="btn-prev" onclick="goStep(2)" data-ar="السابق" data-en="Back">السابق</button></div></div>
+    </div>
+
+    <!-- STEP 3C: Buy Now Listings -->
+    <div class="purchase-step" id="pstep-3c">
+      <h2 class="step-heading" data-ar="الأعمال المتاحة" data-en="Available Works">الأعمال المتاحة</h2>
+      <p class="step-sub" data-ar="اختر العمل الذي يعجبك. الشحن مجاني على جميع الطلبات." data-en="Pick the piece you love. Free shipping on all orders.">اختر العمل الذي يعجبك. الشحن مجاني على جميع الطلبات.</p>
+      <div class="listing-grid" id="listingGrid">
+        <!-- Populated by JS placeholder listings -->
+      </div>
+      <div class="step-nav"><div class="step-nav-left"><button class="btn-prev" onclick="goStep('3b')" data-ar="السابق" data-en="Back">السابق</button></div></div>
+    </div>
+
+    <!-- STEP 3D: Auction Listings -->
+    <div class="purchase-step" id="pstep-3d">
+      <h2 class="step-heading" data-ar="المزادات النشطة" data-en="Active Auctions">المزادات النشطة</h2>
+      <p class="step-sub" data-ar="ضع عرضك السعري على الأعمال المتاحة. المزايد الأعلى يفوز." data-en="Place your bid on available works. Highest bid wins.">ضع عرضك السعري على الأعمال المتاحة. المزايد الأعلى يفوز.</p>
+      <div class="listing-grid" id="auctionGrid">
+        <!-- Populated by JS placeholder auctions -->
+      </div>
+      <div id="bid-form-section" style="display:none;margin-top:2rem">
+        <div class="form-section">
+          <p class="form-section-title" data-ar="تفاصيل عرضك" data-en="Your Bid Details">تفاصيل عرضك</p>
+          <div class="field-group cols-2">
+            <div class="field">
+              <label data-ar="اسمك" data-en="Your name">اسمك</label>
+              <input type="text" id="bidName" placeholder="اسمك">
+            </div>
+            <div class="field">
+              <label data-ar="عرضك السعري (ريال)" data-en="Your bid amount (SAR)">عرضك السعري</label>
+              <input type="number" id="bidAmount" placeholder="0">
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field">
+              <label data-ar="طريقة التواصل *" data-en="Contact method *">طريقة التواصل <span style="color:var(--gold)">*</span></label>
+              <input type="text" id="bidContact" placeholder="@instagram أو رقم">
+              <p class="field-note" data-ar="سأتواصل معك إذا فزت بالمزاد" data-en="I'll contact you if you win the auction">سأتواصل معك إذا فزت بالمزاد</p>
+            </div>
+          </div>
+          <button class="btn-next" onclick="goStep('bid-ship')" style="margin-top:1rem" data-ar="التالي: الشحن →" data-en="Next: Shipping →">التالي: الشحن →</button>
+        </div>
+      </div>
+      <div class="step-nav"><div class="step-nav-left"><button class="btn-prev" onclick="goStep('3b')" data-ar="السابق" data-en="Back">السابق</button></div></div>
+    </div>
+
+    <!-- STEP: Shipping -->
+    <div class="purchase-step" id="pstep-shipping">
+      <h2 class="step-heading" data-ar="معلومات الشحن" data-en="Shipping Info">معلومات الشحن</h2>
+      <p class="step-sub" data-ar="أين أرسل لك العمل؟ الشحن مجاني على الأعمال الصغيرة." data-en="Where should I ship your piece? Shipping is free on smaller works.">أين أرسل لك العمل؟ الشحن مجاني على الأعمال الصغيرة.</p>
+      <div class="form-section">
+        <div class="field-group cols-2">
+          <div class="field">
+            <label data-ar="الاسم الكامل" data-en="Full name">الاسم الكامل</label>
+            <input type="text" id="shipName" placeholder="اسمك الكامل" data-ar-ph="اسمك الكامل" data-en-ph="Your full name">
+          </div>
+          <div class="field">
+            <label data-ar="رقم الهاتف" data-en="Phone number">رقم الهاتف</label>
+            <input type="tel" id="shipPhone" placeholder="+966…">
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label data-ar="العنوان — الشارع والحي" data-en="Address — street and district">العنوان</label>
+            <input type="text" id="shipAddress" placeholder="الشارع، الحي" data-ar-ph="الشارع، الحي" data-en-ph="Street, district">
+          </div>
+        </div>
+        <div class="field-group cols-2">
+          <div class="field">
+            <label data-ar="المدينة" data-en="City">المدينة</label>
+            <input type="text" id="shipCity" placeholder="الرياض" data-ar-ph="الرياض" data-en-ph="City">
+          </div>
+          <div class="field">
+            <label data-ar="الدولة" data-en="Country">الدولة</label>
+            <input type="text" id="shipCountry" placeholder="السعودية" data-ar-ph="السعودية" data-en-ph="Country">
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <div class="step-nav-left"><button class="btn-prev" id="shipBackBtn" onclick="goShipBack()" data-ar="السابق" data-en="Back">السابق</button></div>
+        <button class="btn-next" onclick="goStep('billing')" data-ar="التالي: الدفع →" data-en="Next: Payment →">التالي: الدفع →</button>
+      </div>
+    </div>
+
+    <!-- STEP: Billing -->
+    <div class="purchase-step" id="pstep-billing">
+      <h2 class="step-heading" data-ar="الدفع" data-en="Payment">الدفع</h2>
+      <p class="step-sub" data-ar="سيتم التواصل معك لتأكيد السعر النهائي وإتمام الدفع." data-en="I'll contact you to confirm the final price and complete payment.">سيتم التواصل معك لتأكيد السعر النهائي وإتمام الدفع.</p>
+      <div class="form-section">
+        <p class="form-section-title" data-ar="معلومات الدفع" data-en="Payment Info">معلومات الدفع</p>
+        <div class="field-group cols-2">
+          <div class="field">
+            <label data-ar="طريقة الدفع المفضلة" data-en="Preferred payment method">طريقة الدفع المفضلة</label>
+            <select id="payMethod">
+              <option value="" data-ar="اختر…" data-en="Select…">اختر…</option>
+              <option data-ar="تحويل بنكي" data-en="Bank transfer">تحويل بنكي</option>
+              <option data-ar="PayPal" data-en="PayPal">PayPal</option>
+              <option data-ar="STC Pay" data-en="STC Pay">STC Pay</option>
+              <option data-ar="نقداً عند الاستلام" data-en="Cash on delivery">نقداً عند الاستلام</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-ar="ملاحظات إضافية (اختياري)" data-en="Additional notes (optional)">ملاحظات إضافية</label>
+            <input type="text" id="payNotes" placeholder="أي تفاصيل إضافية…" data-ar-ph="أي تفاصيل إضافية…" data-en-ph="Any extra details…">
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <div class="step-nav-left"><button class="btn-prev" onclick="goStep('shipping')" data-ar="السابق" data-en="Back">السابق</button></div>
+        <button class="btn-next" onclick="submitOrder()" data-ar="إرسال الطلب ✓" data-en="Submit Order ✓">إرسال الطلب ✓</button>
+      </div>
+    </div>
+
+    <!-- STEP: Confirmation -->
+    <div class="purchase-step" id="pstep-confirm">
+      <div class="confirm-box">
+        <div class="confirm-icon">🎨</div>
+        <div class="confirm-title" data-ar="تم إرسال طلبك! 🤍" data-en="Order submitted! 🤍">تم إرسال طلبك! 🤍</div>
+        <p class="confirm-sub" data-ar="شكراً لثقتك! سأتواصل معك قريباً عبر طريقة التواصل التي أعطيتها لتأكيد التفاصيل والسعر النهائي." data-en="Thank you for your trust! I'll reach out soon via the contact method you provided to confirm details and final price.">شكراً لثقتك! سأتواصل معك قريباً عبر طريقة التواصل التي أعطيتها لتأكيد التفاصيل والسعر النهائي.</p>
+        <div class="confirm-btns">
+          <a href="https://www.instagram.com/Dr.6eam" target="_blank" class="btn btn-gold" data-ar="تواصل معي على Instagram ↗" data-en="Reach me on Instagram ↗">تواصل معي على Instagram ↗</a>
+          <button class="btn btn-ghost" onclick="leaveFeedback()" data-ar="اترك تقييمًا" data-en="Leave Feedback">اترك تقييمًا</button>
+        </div>
+      </div>
+
+      <!-- Feedback form (hidden by default) -->
+      <div id="feedbackForm" style="display:none;margin-top:2rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:2rem">
+        <p class="form-section-title" data-ar="تقييمك" data-en="Your Feedback">تقييمك</p>
+        <div class="field-group">
+          <div class="field">
+            <label data-ar="رأيك في تجربة الطلب" data-en="Your experience with the ordering process">رأيك في تجربة الطلب</label>
+            <textarea id="feedbackText" placeholder="شاركنا رأيك…" data-ar-ph="شاركنا رأيك…" data-en-ph="Share your thoughts…"></textarea>
+          </div>
+        </div>
+        <button class="btn-next" onclick="submitFeedback()" data-ar="إرسال التقييم" data-en="Submit Feedback">إرسال التقييم</button>
+      </div>
+    </div>
+
+  </div><!-- /page-body -->
+</div><!-- /page-purchase -->
+
+
+<!-- ========== ARTIST SHOWCASE PAGE ========== -->
+<div class="page-overlay" id="page-showcase">
+  <div class="page-header">
+    <button class="page-back" onclick="closePage('showcase')">← <span data-ar="العودة" data-en="Back">العودة</span></button>
+    <span class="page-title" data-ar="معرض المتابعين" data-en="Artist Showcase">معرض المتابعين</span>
+  </div>
+  <div class="page-body">
+    <div class="showcase-intro reveal">
+      <p class="sec-eyebrow" data-ar="أعمال المجتمع" data-en="Community Works">أعمال المجتمع</p>
+      <h2 class="step-heading" data-ar="فنانون من مجتمعنا." data-en="Artists from our community.">فنانون من مجتمعنا.</h2>
+      <p class="step-sub" data-ar="هنا أعرض أعمال المتابعين المميزين الذين شاركوا في المسابقات. كل فنان يستحق إضاءته." data-en="Here I showcase the works of special followers who joined our competitions. Every artist deserves their spotlight.">هنا أعرض أعمال المتابعين المميزين الذين شاركوا في المسابقات. كل فنان يستحق إضاءته.</p>
+    </div>
+    <!-- Patch tabs -->
+    <div class="patch-tabs" id="patchTabs"></div>
+    <!-- Winners grid — rendered by JS -->
+    <div class="winner-grid" id="winnerGrid"></div>
+  </div>
+</div><!-- /page-showcase -->
+
+<!-- ART LIGHTBOX -->
+<div class="art-lb" id="artLb" onclick="closeArtLb(event)">
+  <button class="art-lb-x" onclick="closeArtLbBtn()">✕</button>
+  <img id="artLbImg" src="" alt="">
+  <div class="art-lb-caption" id="artLbCaption"></div>
 </div>
 
 <script>
@@ -625,11 +1074,422 @@ window.addEventListener('scroll', () => {
 
 // Form
 function handleSubmit() {
-  const n = document.getElementById('cname').value;
+  const n = document.getElementById('cname') ? document.getElementById('cname').value : '';
   const isAr = lang === 'ar';
   if (!n) { alert(isAr ? 'يرجى كتابة اسمك.' : 'Please enter your name.'); return; }
   alert(isAr ? 'شكراً على رسالتك! سأتواصل معك قريباً 🤍' : "Thanks for your message! I'll get back to you soon 🤍");
 }
+
+/* ===========================
+   PAGE OVERLAY SYSTEM
+=========================== */
+function openPage(name) {
+  document.getElementById('page-' + name).classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if (name === 'purchase') initPurchasePage();
+}
+
+function closePage(name) {
+  document.getElementById('page-' + name).classList.remove('active');
+  document.body.style.overflow = '';
+  if (name === 'purchase') resetPurchase();
+}
+
+/* ===========================
+   PURCHASE FLOW STATE
+=========================== */
+let purchaseState = {
+  category: '',   // 'painting' | 'mug'
+  type: '',       // 'custom' | 'original'
+  buyMode: '',    // 'buynow' | 'auction'
+  selectedItem: null,
+  media: [],
+  currentStep: '1',
+  shipBack: ''
+};
+
+function initPurchasePage() {
+  goStep('1');
+  buildListings();
+  buildAuctions();
+  updateDots('1');
+}
+
+function resetPurchase() {
+  purchaseState = { category:'', type:'', buyMode:'', selectedItem:null, media:[], currentStep:'1', shipBack:'' };
+}
+
+/* Dots */
+const stepOrder = ['1','2','3a','3b','3c','3d','shipping','billing','confirm'];
+function updateDots(step) {
+  const container = document.getElementById('purchaseStepDots');
+  container.innerHTML = '';
+  const idx = stepOrder.indexOf(step);
+  stepOrder.slice(0, Math.max(idx + 2, 4)).forEach((s, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'step-dot' + (i < idx ? ' done' : i === idx ? ' current' : '');
+    container.appendChild(dot);
+  });
+}
+
+function showStep(id) {
+  document.querySelectorAll('.purchase-step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('pstep-' + id);
+  if (el) { el.classList.add('active'); purchaseState.currentStep = id; updateDots(id); }
+  document.querySelector('.page-body').scrollTop = 0;
+  const pb = document.querySelector('#page-purchase .page-body');
+  if (pb) pb.scrollTo(0, 0);
+  document.getElementById('page-purchase').scrollTo(0, 0);
+}
+
+function goStep(target) {
+  showStep(target);
+}
+
+function selectCategory(cat) {
+  purchaseState.category = cat;
+  // Update heading in step 2
+  const h = document.getElementById('step2-heading');
+  if (cat === 'painting') {
+    h.setAttribute('data-ar', 'لوحة — اختر النوع');
+    h.setAttribute('data-en', 'Painting — Choose Type');
+    h.textContent = lang === 'ar' ? 'لوحة — اختر النوع' : 'Painting — Choose Type';
+  } else {
+    h.setAttribute('data-ar', 'مج — اختر النوع');
+    h.setAttribute('data-en', 'Mug — Choose Type');
+    h.textContent = lang === 'ar' ? 'مج — اختر النوع' : 'Mug — Choose Type';
+  }
+  goStep('2');
+}
+
+function selectType(type) {
+  purchaseState.type = type;
+  if (type === 'custom') {
+    // Show painting-specific fields only for paintings
+    document.getElementById('painting-medium-section').style.display = purchaseState.category === 'painting' ? 'block' : 'none';
+    document.getElementById('painting-size-field').style.display = purchaseState.category === 'painting' ? 'grid' : 'none';
+    purchaseState.shipBack = '3a';
+    goStep('3a');
+  } else {
+    goStep('3b');
+  }
+}
+
+function selectBuyMode(mode) {
+  purchaseState.buyMode = mode;
+  if (mode === 'buynow') {
+    purchaseState.shipBack = '3c';
+    goStep('3c');
+  } else {
+    purchaseState.shipBack = '3d';
+    goStep('3d');
+  }
+}
+
+function goShipBack() {
+  goStep(purchaseState.shipBack || '3a');
+}
+
+/* Medium tags */
+function toggleMedium(el) {
+  el.classList.toggle('active');
+  const val = el.getAttribute('data-val');
+  const idx = purchaseState.media.indexOf(val);
+  if (idx === -1) purchaseState.media.push(val);
+  else purchaseState.media.splice(idx, 1);
+}
+
+/* Build listing cards */
+const placeholderListings = [
+  { name_ar: 'لوحة الفراشة', name_en: 'Butterfly Painting', price: 'SAR 180', badge_ar: 'متاح', badge_en: 'Available', shipping_ar: 'شحن مجاني', shipping_en: 'Free shipping', icon: '🦋' },
+  { name_ar: 'لوحة القمر', name_en: 'Moon Painting', price: 'SAR 220', badge_ar: 'متاح', badge_en: 'Available', shipping_ar: 'شحن مجاني', shipping_en: 'Free shipping', icon: '🌙' },
+  { name_ar: 'بورتريه أنمي', name_en: 'Anime Portrait', price: 'SAR 150', badge_ar: 'آخر قطعة', badge_en: 'Last one', shipping_ar: 'شحن مجاني', shipping_en: 'Free shipping', icon: '✨' },
+];
+const placeholderAuctions = [
+  { name_ar: 'لوحة التنين', name_en: 'Dragon Painting', end_ar: 'ينتهي خلال 3 أيام', end_en: 'Ends in 3 days', current_ar: 'أعلى عرض: SAR 95', current_en: 'Top bid: SAR 95', icon: '🐉', duration: '3 days' },
+  { name_ar: 'لوحة الغروب', name_en: 'Sunset Painting', end_ar: 'ينتهي خلال 7 أيام', end_en: 'Ends in 7 days', current_ar: 'أعلى عرض: SAR 60', current_en: 'Top bid: SAR 60', icon: '🌅', duration: '7 days' },
+];
+
+function buildListings() {
+  const grid = document.getElementById('listingGrid');
+  grid.innerHTML = '';
+  placeholderListings.forEach((item, i) => {
+    grid.innerHTML += `
+      <div class="listing-card" onclick="selectListing(${i},'buynow')">
+        <div class="listing-img">${item.icon}</div>
+        <div class="listing-info">
+          <div class="listing-name" data-ar="${item.name_ar}" data-en="${item.name_en}">${lang==='ar'?item.name_ar:item.name_en}</div>
+          <div class="listing-price">${item.price}</div>
+          <div class="listing-badge" data-ar="${item.badge_ar}" data-en="${item.badge_en}">${lang==='ar'?item.badge_ar:item.badge_en}</div>
+          <div class="free-shipping" data-ar="${item.shipping_ar}" data-en="${item.shipping_en}">✓ ${lang==='ar'?item.shipping_ar:item.shipping_en}</div>
+        </div>
+      </div>`;
+  });
+}
+
+function buildAuctions() {
+  const grid = document.getElementById('auctionGrid');
+  grid.innerHTML = '';
+  placeholderAuctions.forEach((item, i) => {
+    grid.innerHTML += `
+      <div class="listing-card" onclick="selectListing(${i},'auction')">
+        <div class="listing-img">${item.icon}</div>
+        <div class="listing-info">
+          <div class="listing-name" data-ar="${item.name_ar}" data-en="${item.name_en}">${lang==='ar'?item.name_ar:item.name_en}</div>
+          <div class="listing-badge" style="background:rgba(255,90,54,.15);border-color:rgba(255,90,54,.3);color:var(--accent)" data-ar="${item.end_ar}" data-en="${item.end_en}">${lang==='ar'?item.end_ar:item.end_en}</div>
+          <div class="listing-price" style="font-size:1rem;margin-top:.4rem" data-ar="${item.current_ar}" data-en="${item.current_en}">${lang==='ar'?item.current_ar:item.current_en}</div>
+        </div>
+      </div>`;
+  });
+}
+
+function selectListing(idx, mode) {
+  purchaseState.selectedItem = idx;
+  if (mode === 'buynow') {
+    purchaseState.shipBack = '3c';
+    goStep('shipping');
+  } else {
+    document.getElementById('bid-form-section').style.display = 'block';
+  }
+  // Highlight selected
+  const grid = mode === 'buynow' ? document.getElementById('listingGrid') : document.getElementById('auctionGrid');
+  grid.querySelectorAll('.listing-card').forEach((c,i) => {
+    c.style.borderColor = i === idx ? 'var(--gold)' : '';
+    c.style.background = i === idx ? 'var(--gold-dim)' : '';
+  });
+}
+
+function submitOrder() {
+  const isAr = lang === 'ar';
+  const pay = document.getElementById('payMethod').value;
+  if (!pay) { alert(isAr ? 'يرجى اختيار طريقة الدفع.' : 'Please select a payment method.'); return; }
+  goStep('confirm');
+}
+
+function leaveFeedback() {
+  const fb = document.getElementById('feedbackForm');
+  fb.style.display = fb.style.display === 'none' ? 'block' : 'none';
+}
+
+function submitFeedback() {
+  const isAr = lang === 'ar';
+  alert(isAr ? 'شكراً على تقييمك! 🤍' : 'Thank you for your feedback! 🤍');
+  document.getElementById('feedbackForm').style.display = 'none';
+}
+
+/* ===== ARTIST SHOWCASE — MULTI-PATCH STAR VOTING ===== */
+
+// ── PATCH DATA ──────────────────────────────────────────────────────────────
+// Each patch = one event/week. Add new patches here; artworks rank within their patch only.
+const showcasePatches = [
+  {
+    id: 'week1',
+    label_ar: 'الأسبوع ١',
+    label_en: 'Week 1',
+    artworks: [
+      {
+        id: 'w1-art1',
+        img: 'Follower_Art/c__c.jpg',
+        name_ar: 'c__c',
+        name_en: 'c__c',
+        tiktok: 'https://www.tiktok.com/@anao5148?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w1-art2',
+        img: 'Follower_Art/Roaa.jpeg',
+        name_ar:'Roaa',
+        name_en:'Roaa',
+        tiktok: 'https://www.tiktok.com/@rooo1865?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w1-art3',
+        img: 'Follower_Art/Wow_Gallary.jpg',
+        name_ar: 'Wow Gallary',
+        name_en: 'Wow Gallary',
+        tiktok: 'https://www.tiktok.com/@07gallary?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w1-art4',
+        img: 'Follower_Art/Yara.jpg',
+        name_ar: 'Yara',
+        name_en: 'Yara',
+        tiktok: 'https://www.tiktok.com/@yiio.2i?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w1-art5',
+        img:'Follower_Art/Rabbit.jpg',
+        name_ar: '..',
+        name_en: '..',
+        tiktok: 'https://www.tiktok.com/@2reaality?is_from_webapp=1&sender_device=pc'
+      }
+    ]
+  },
+  {
+    id: 'week2',
+    label_ar: 'الأسبوع ٢',
+    label_en: 'Week 2',
+    artworks: [
+      {
+        id: 'w2-art1',
+        img: null,
+        name_ar: 'مكانك هنا!',
+        name_en: 'Your spot!',
+        tiktok: 'https://www.tiktok.com/@Dreamyxxi7'
+      },
+      {
+        id: 'w2-art2',
+        img: null,
+        name_ar: 'مكانك هنا!',
+        name_en: 'Your spot!',
+        tiktok: 'https://www.tiktok.com/@Dreamyxxi7'
+      }
+    ]
+  }
+];
+
+let activePatchId = showcasePatches[0].id;
+
+// ── STORAGE HELPERS ──────────────────────────────────────────────────────────
+function getStars(id) {
+  return parseInt(localStorage.getItem('stars_' + id) || '0', 10);
+}
+function setStars(id, n) {
+  localStorage.setItem('stars_' + id, Math.max(0, n));
+}
+function hasVoted(id) {
+  return localStorage.getItem('voted_' + id) === '1';
+}
+function setVoted(id, val) {
+  if (val) localStorage.setItem('voted_' + id, '1');
+  else localStorage.removeItem('voted_' + id);
+}
+
+// ── STAR TOGGLE ──────────────────────────────────────────────────────────────
+function toggleStar(id, e) {
+  e.stopPropagation(); // don't trigger lightbox
+  if (hasVoted(id)) {
+    setVoted(id, false);
+    setStars(id, getStars(id) - 1);
+  } else {
+    setVoted(id, true);
+    setStars(id, getStars(id) + 1);
+  }
+  renderShowcase();
+}
+
+// ── LIGHTBOX ─────────────────────────────────────────────────────────────────
+function openArtLb(imgSrc, name, tiktok) {
+  const lb = document.getElementById('artLb');
+  document.getElementById('artLbImg').src = imgSrc;
+  const capEl = document.getElementById('artLbCaption');
+  const tkHtml = tiktok && tiktok !== '#'
+    ? ` · <a href="${tiktok}" target="_blank">🎵 TikTok</a>`
+    : '';
+  capEl.innerHTML = `<strong>${name}</strong>${tkHtml}`;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeArtLb(e) {
+  if (e.target === document.getElementById('artLb')) closeArtLbBtn();
+}
+function closeArtLbBtn() {
+  document.getElementById('artLb').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArtLbBtn(); });
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderPatchTabs() {
+  const tabs = document.getElementById('patchTabs');
+  if (!tabs) return;
+  const isAr = lang === 'ar';
+  tabs.innerHTML = showcasePatches.map(p => `
+    <button class="patch-tab${p.id === activePatchId ? ' active' : ''}"
+      onclick="switchPatch('${p.id}')">
+      ${isAr ? p.label_ar : p.label_en}
+    </button>`).join('');
+}
+
+function switchPatch(id) {
+  activePatchId = id;
+  renderPatchTabs();
+  renderShowcase();
+}
+
+function renderShowcase() {
+  const grid = document.getElementById('winnerGrid');
+  if (!grid) return;
+  renderPatchTabs();
+  const isAr = lang === 'ar';
+
+  const patch = showcasePatches.find(p => p.id === activePatchId);
+  if (!patch) return;
+
+  // Sort within this patch only
+  const sorted = [...patch.artworks].sort((a, b) => getStars(b.id) - getStars(a.id));
+  const topId = sorted[0] && getStars(sorted[0].id) > 0 ? sorted[0].id : null;
+
+  grid.innerHTML = sorted.map(art => {
+    const stars  = getStars(art.id);
+    const voted  = hasVoted(art.id);
+    const name   = art.name || (isAr ? art.name_ar : art.name_en) || '';
+    const tiktok = art.tiktok || '#';
+    const isTop  = art.id === topId;
+    const starLabel = isAr ? 'نجمة' : (stars === 1 ? 'star' : 'stars');
+    const btnLabel  = voted ? (isAr ? '★ إزالة' : '★ Unstar') : (isAr ? '☆ نجمة' : '☆ Star');
+
+    const badgeHtml = isTop
+      ? `<div class="winner-badge">🏆 ${isAr ? 'الأعلى' : 'Top'}</div>`
+      : '';
+
+    const photoHtml = art.img
+      ? `<img src="${art.img}" alt="${name}" loading="lazy">`
+      : `<div class="winner-photo-placeholder">🎨</div>`;
+
+    const clickHandler = art.img
+      ? `onclick="openArtLb('${art.img}','${name.replace(/'/g,"\\'")}','${tiktok}')"` : '';
+
+    const tkHtml = tiktok && tiktok !== '#'
+      ? `<a class="winner-caption-link" href="${tiktok}" target="_blank" onclick="event.stopPropagation()">🎵 TikTok</a>`
+      : `<a class="winner-caption-link" href="https://www.tiktok.com/@Dreamyxxi7" target="_blank" onclick="event.stopPropagation()">🎵 شارك في المسابقة</a>`;
+
+    return `
+      <div class="winner-card" data-id="${art.id}" ${clickHandler} title="${isAr ? 'اضغط للتكبير' : 'Click to enlarge'}">
+        <div class="winner-photo">
+          ${badgeHtml}
+          ${photoHtml}
+          <div class="winner-zoom">🔍</div>
+        </div>
+        <div class="winner-caption">
+          <div class="winner-caption-name">${name}</div>
+          ${tkHtml}
+          <div class="star-row">
+            <button class="star-btn${voted ? ' voted' : ''}"
+              onclick="toggleStar('${art.id}', event)"
+              title="${voted ? (isAr ? 'انقر لإزالة النجمة' : 'Click to unstar') : (isAr ? 'أعطِ نجمة' : 'Star this')}">
+              ${btnLabel}
+            </button>
+            <span class="star-count">${stars}</span>
+            <span class="star-count-label">${starLabel}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// Hook into page open & lang toggle
+const _origOpenPage = window.openPage;
+window.openPage = function(name) {
+  _origOpenPage(name);
+  if (name === 'showcase') renderShowcase();
+};
+const _origToggleLang = window.toggleLang;
+window.toggleLang = function() {
+  _origToggleLang();
+  renderShowcase();
+};
+
+renderShowcase();
 </script>
 </body>
 </html>
