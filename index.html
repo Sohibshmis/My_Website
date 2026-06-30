@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<!-- Firebase (compat SDK — works directly via CDN, no build step) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" sizes="16x16" href="paintings/favicon-16x16.png">
@@ -225,8 +228,6 @@ footer p{font-size:.83rem;color:var(--subtle)}
 
 /* RESPONSIVE */
 @media(max-width:700px){
-  body { cursor: auto !important; }
-  #cursor, #cursor-ring { display: none !important; }
   .nav-links{display:none}
   .ham{display:flex}
   .about-layout{grid-template-columns:1fr}
@@ -1331,17 +1332,45 @@ const showcasePatches = [
     artworks: [
       {
         id: 'w2-art1',
-        img: null,
-        name_ar: 'مكانك هنا!',
-        name_en: 'Your spot!',
-        tiktok: 'https://www.tiktok.com/@Dreamyxxi7'
+        img: 'Week 2/Ghala.jpg',
+        name_ar: 'Ghala',
+        name_en: 'Ghala',
+        tiktok: 'https://www.tiktok.com/@anao5148?is_from_webapp=1&sender_device=pc'
       },
       {
         id: 'w2-art2',
-        img: null,
-        name_ar: 'مكانك هنا!',
-        name_en: 'Your spot!',
-        tiktok: 'https://www.tiktok.com/@Dreamyxxi7'
+        img: 'Week 2/Shaima.jpg',
+        name_ar:'Shaima',
+        name_en:'Shaima',
+        tiktok: 'https://www.tiktok.com/@rooo1865?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w2-art3',
+        img: 'Week 2/C_C2.png',
+        name_ar: 'c__c',
+        name_en: 'c__c',
+        tiktok: 'https://www.tiktok.com/@07gallary?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w2-art4',
+        img: 'Week 2/Sama.jpg',
+        name_ar: 'Sama',
+        name_en: 'Sama',
+        tiktok: 'https://www.tiktok.com/@yiio.2i?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w2-art5',
+        img:'Week 2/Rawan.jpg',
+        name_ar: 'Rawan',
+        name_en: 'Rawan',
+        tiktok: 'https://www.tiktok.com/@2reaality?is_from_webapp=1&sender_device=pc'
+      },
+      {
+        id: 'w2-art6',
+        img:'Week 2/Ahad.jpeg',
+        name_ar: 'Ahad',
+        name_en: 'Ahad',
+        tiktok: 'https://www.tiktok.com/@2reaality?is_from_webapp=1&sender_device=pc'
       }
     ]
   }
@@ -1349,13 +1378,31 @@ const showcasePatches = [
 
 let activePatchId = showcasePatches[0].id;
 
-// ── STORAGE HELPERS ──────────────────────────────────────────────────────────
-function getStars(id) {
-  return parseInt(localStorage.getItem('stars_' + id) || '0', 10);
-}
-function setStars(id, n) {
-  localStorage.setItem('stars_' + id, Math.max(0, n));
-}
+// ── FIREBASE SETUP ────────────────────────────────────────────────────────────
+// Star counts are stored globally at /stars/{artworkId} in Firebase so every
+// visitor sees the same numbers. This works automatically for ANY artwork id
+// in ANY patch/week — no per-week code needed, just add new patches to
+// showcasePatches above and their stars will sync the same way.
+const firebaseConfig = {
+  apiKey: "AIzaSyAwoDXTLwcPGdsBgiGgpntBu0sQooN6Has",
+  authDomain: "dream-46160.firebaseapp.com",
+  databaseURL: "https://dream-46160-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "dream-46160",
+  storageBucket: "dream-46160.firebasestorage.app",
+  messagingSenderId: "757723123968",
+  appId: "1:757723123968:web:68b5c1fa15f6560d0de3e5",
+  measurementId: "G-DK0QPFT38Z"
+};
+firebase.initializeApp(firebaseConfig);
+const starsDb = firebase.database().ref('stars');
+
+// In-memory cache of global star counts, kept in sync via Firebase listener
+let starCounts = {};
+
+// ── LOCAL "HAVE I VOTED" FLAG ─────────────────────────────────────────────────
+// Each visitor's browser still remembers which artworks THEY personally
+// starred (so the button toggles correctly for them and they can't spam
+// votes), but the actual COUNT comes from Firebase and is shared by everyone.
 function hasVoted(id) {
   return localStorage.getItem('voted_' + id) === '1';
 }
@@ -1363,18 +1410,19 @@ function setVoted(id, val) {
   if (val) localStorage.setItem('voted_' + id, '1');
   else localStorage.removeItem('voted_' + id);
 }
+function getStars(id) {
+  return starCounts[id] || 0;
+}
 
-// ── STAR TOGGLE ──────────────────────────────────────────────────────────────
+// ── STAR TOGGLE (writes to Firebase, works for every artwork/patch) ──────────
 function toggleStar(id, e) {
   e.stopPropagation(); // don't trigger lightbox
-  if (hasVoted(id)) {
-    setVoted(id, false);
-    setStars(id, getStars(id) - 1);
-  } else {
-    setVoted(id, true);
-    setStars(id, getStars(id) + 1);
-  }
-  renderShowcase();
+  const delta = hasVoted(id) ? -1 : 1;
+  setVoted(id, delta > 0);
+
+  // Atomic increment/decrement directly on the shared database node
+  starsDb.child(id).transaction(current => Math.max(0, (current || 0) + delta));
+  // renderShowcase() will fire automatically via the Firebase listener below
 }
 
 // ── LIGHTBOX ─────────────────────────────────────────────────────────────────
@@ -1489,7 +1537,15 @@ window.toggleLang = function() {
   renderShowcase();
 };
 
-renderShowcase();
+// ── LIVE SYNC ─────────────────────────────────────────────────────────────────
+// This single listener covers EVERY artwork in EVERY patch/week, current and
+// future. Whenever any visitor anywhere stars/unstars a painting, Firebase
+// pushes the updated counts here and the grid re-renders for everyone with
+// the page open — no per-week wiring needed as you add more weeks.
+starsDb.on('value', snapshot => {
+  starCounts = snapshot.val() || {};
+  renderShowcase();
+});
 </script>
 </body>
 </html>
